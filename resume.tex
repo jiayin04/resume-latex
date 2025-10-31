@@ -1,0 +1,441 @@
+\documentclass[10pt, letterpaper]{article}
+\newcommand{\textbr}[1]{#1\\} 
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Kok Jia Yin's CV},
+    pdfauthor={Kok Jia Yin},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    % \color{gray}\textit{\small John Doe - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt,
+        itemsep=0.1cm
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{2.0}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0.2 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+    % for placing last updated
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Kok Jia Yin}
+
+        \vspace{0.1 cm}
+
+        \normalsize
+        % \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm}Your Location}%
+        % \kern 0.25 cm%
+        % \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{mailto:jiayinkok@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}jiayinkok@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:6018-273-4998}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+60 18-273 4998}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://jiayin-portfolio.vercel.app/}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}Personal Portfolio}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/jia-yin-kok-9767b528a/}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Jia Yin Kok}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/jiayin04}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}jiayin04}}%
+    \end{header}
+
+    \vspace{0.3 cm - 0.3 cm}
+    
+    \section{Education}
+
+        \begin{twocolentry}{
+            
+            
+        \textbf{Feb 2025 – Present}}
+        % \text{Kuala Lumpur, MY}}
+            \textbf{Bachelor of Science (Hons) in Software Engineering}
+
+            \text{Asia Pacific University (APU)}
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                % \item Recipient of APU Merit Scholarship
+                \item Latest CGPA: 4.0/4.0 (\href{https://drive.google.com/file/d/1qv-7-5gx9rCrX_IaMYU5bI0QRPBi-HP1/view?usp=sharing}{Transcript})
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.20 cm}
+        
+        \begin{twocolentry}{
+            
+            
+        \textbf{Aug 2022 – Oct 2024}}
+        % \text{Kuala Lumpur, MY}}
+            \textbf{Diploma in ICT (Software Engineering)}
+
+            \text{Asia Pacific University (APU)}
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item CGPA: 3.91/4.0 (\href{https://drive.google.com/file/d/1Qg-rEVDvWRz3d2_e7Q_LpzVDplyA2OwC/view?usp=sharing}{Transcript})
+            \end{highlights}
+        \end{onecolentry}
+
+
+    \vspace{0.3cm}
+    
+    \section{Industrial Experience}
+
+
+
+        \begin{twocolentry}{
+            \textbf{Aug 2024 – Jan 2025} 
+            \text{Kuala Lumpur, MY}
+        }
+            {\textbf{IT Developer (Internship + Contract)} }  \\
+            \text{Nirvana Asia Group}
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{adjustwidth}{0cm}{0.1cm}
+            \begin{onecolentry}
+                \begin{highlights}
+                    \item Optimized SQL stored procedures and \textbf{queue-based reporting}, improving \textbf{report generation speed}.
+                    \item Developed and modified \textbf{Crystal/Jasper Reports} and automated document generation across \textbf{10+ branches} using \textbf{C\# and SQL Server}.
+                    \item Built \textbf{SOAP web services} for DES projects, enabling seamless data synchronization.
+                    \item Revamp legacy Java system to \textbf{Radzen (Angular + .NET Core)}, improving scalability.
+                    \item Managed the deployment of the latest DES system versions and resolved post-release issues during \textbf{UAT}.
+                \end{highlights}
+        
+            \end{onecolentry}
+        \end{adjustwidth}
+
+
+        \vspace{0.2 cm}
+
+
+    
+    \section{Projects}
+
+        \begin{twocolentry}{
+            
+            
+        \textit{\href{https://github.com/jiayin04/jiayin-portfolio}{Portfolio Repo}}}
+            \textbf{Personal Portfolio}
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{adjustwidth}{0cm}{0.1cm}
+            \begin{onecolentry}
+                \begin{highlights}
+                % \begin{itemize} [itemsep=0.1cm]
+                    \item {Engineered} personal portfolio with \textbf{dynamic theme switching} and \textbf{CI/CD integration} to showcase projects and skills.
+                    \item \textbf{Tech Stack:} TypeScript, React, Tailwind CSS, Next.js, Supabase, Vercel
+                % \end{itemize}
+                    
+                \end{highlights}
+            \end{onecolentry}
+        \end{adjustwidth}
+
+        \vspace{0.20 cm}
+
+        % \begin{twocolentry}{
+        % \textit{\href{https://github.com/jiayin04/ClinicManagementSystem-CMS-}{CMS Repo}}}
+        %     \textbf{Clinic Management System}
+        % \end{twocolentry}
+
+        % \vspace{0.20 cm}
+        % \begin{onecolentry}
+        %     \begin{highlights}
+        %         \item Developed a Java-based system to manage \textbf{patients, appointments, billing, and staff} for clinic operations.
+        %         \item Implemented modules for patient registration, appointment scheduling, and invoice generation.
+        %         \item \textbf{Tech Stack:} Java (Swing/AWT)
+        %     \end{highlights}
+               
+        % \end{onecolentry}
+        \begin{twocolentry}{
+        \textit{\href{https://github.com/Tianweiii/OWSB-Official}{OWSB Repo}}}
+            \textbf{Purchase Order Management}
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a Java-based system to manage \textbf{purchase requisition(PR) and purchase order(PO)} for procurement operations.
+                \item Implemented modules for item/supplier management, PR creation, and PO generation.
+                \item \textbf{Tech Stack:} Java (Javafx), Maven
+            \end{highlights}
+               
+        \end{onecolentry}
+
+
+        \vspace{0.20 cm}
+
+        \begin{twocolentry}{
+            
+            
+        \textit{\href{https://github.com/jiayin04/Retail-PFDA}{Retail PFDA Repo}}}
+            \textbf{Retail Data Analysis}
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{adjustwidth}{0cm}{0.1cm}
+            \begin{onecolentry}
+                \begin{highlights}
+                    \item Analyzed \textbf{300K+} transaction data to uncover customer behavior and purchasing patterns.
+                    \item Built interactive dashboards using Shiny for \textbf{country/product performance} and \textbf{segmentation insights}.
+                    \item \textbf{Tech Stack:} R, Shiny
+                \end{highlights}
+            \end{onecolentry}
+        \end{adjustwidth}
+
+
+        \vspace{0.20 cm}
+
+        \begin{twocolentry}{
+            
+        \textit{\href{https://github.com/jiayin04/EmailAutomation}{Email Automation Repo}}}
+            \textbf{Email Automation System}
+        \end{twocolentry}
+        
+        \vspace{0.20 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Automated delivery of \textbf{20+ monthly emails} using Gmail API and dynamic HTML templates.
+                \item Streamlined communication by integrating Google Sheets and custom scripts.
+                % \item Integrated with Gmail and Google Sheets APIs; included custom menu and timestamp logging for reliable delivery tracking.
+                \item \textbf{Tech Stack:} Google Apps Script, JavaScript, Gmail API
+            \end{highlights}
+               
+        \end{onecolentry}
+
+    \vspace{0.20 cm}
+
+    \section{Leadership \& Involvement}
+        \begin{twocolentry}
+            {\textbf{Jan 2023 – Jan 2025}}
+            {\textbf{Admin (2023) \& Secretary (2024)}  \\ \text{Operation Smile Club (OSC)}}
+        \end{twocolentry}
+        
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Oversaw club operations, including \textbf{proposal writing}, \textbf{MOM}, logistics coordination, and \textbf{1000+} membership records across both roles.
+                \item Managed \textbf{P\&L statements} and coordinated an admin team to ensure smooth event execution.
+                \item Organized events (Youth Camp, World Smile Day) and implemented an \textbf{Email Automation System} to streamline communications.
+            \end{highlights}
+        \end{onecolentry}
+
+    \vspace{0.20 cm}
+
+    \section{Achievements}
+    
+        \begin{twocolentry}
+            {\textbf{Sept 2025 – Oct 2025} \\ \textit{\href{https://github.com/orgs/GreatAI-NeuBee/repositories}{Github Repo}}}
+            {\textbf{Top 20 Finalist – Great AI Hackathon 2025} \\
+            \text{Organized by Amazon Web Service (AWS)}}
+        \end{twocolentry}
+        
+        \begin{adjustwidth}{0cm}{0.1cm}
+            \begin{onecolentry}
+                \begin{highlights}
+                    \item Led a team as Project Manager and ML Engineer to build an AI-driven solution for \textbf{event crowd and traffic management}. 
+                    \item Designed and deployed forecasting and congestion detection models (\textbf{Prophet, YOLOv8}) on \textbf{AWS SageMaker/EC2}, integrating with a \textbf{React} web dashboard.
+                    \item \textbf{Tech Stack:} React, AWS SageMaker, AWS EC2, AWS Bedrock, Docker, YOLOv8, Prophet
+                \end{highlights}
+            \end{onecolentry}
+        \end{adjustwidth}
+
+        \vspace{0.40 cm}
+        
+        \begin{twocolentry}
+            {\textbf{Mar 2025 – Apr 2025} \\ \textit{\href{https://github.com/Ecocity-The-Try-People/VHack-Ecocity}{GitHub Repo}}}
+            
+            {\textbf{1st Runner Up – Varsity Hackathon 2025} \\
+            \text{Organized by USM Computer Science Club}}
+            
+        \end{twocolentry}
+
+        \vspace{0.20 cm}
+        \begin{adjustwidth}{0cm}{0.1cm}
+            \begin{onecolentry}
+                \begin{highlights}
+                    \item Developed a \textbf{Smart City Management System} to address traffic congestion, flood response, waste management, and public administration.
+                    \item \textbf{Tech Stack:} React.js, Tailwind CSS, Vite.js, Firebase, Leaflet.js
+                \end{highlights}
+            \end{onecolentry}
+        \end{adjustwidth}
+        
+    \vspace{0.20 cm}
+
+
+    \section{Skills}
+
+        \vspace{0.2cm}
+        
+        \begin{center}
+            \begin{tabular}{p{0.31\textwidth} p{0.31\textwidth} p{0.31\textwidth}}
+            \setlength{\extrarowheight}{4pt} 
+            \textbf{Languages} & \textbf{Frameworks \& Libraries} & \textbf{Databases} \\
+                \textbf{JavaScript}, TypeScript, \textbf{Python}, \textbf{Java}, PHP, C\#, SQL, R, Dart &
+                \textbf{React}, \textbf{Angular}, Tailwind, Flutter, .NET, Maven &
+                MySQL, Firebase, Supabase, Microsoft SQL Server \\
+            
+            \\
+            
+            \textbf{Version Control \& API} & \textbf{Tools \& Platforms} & \textbf{Others} \\
+                Git, GitHub Actions, Postman, SOAP web service &
+                Figma, Vercel, Talend, Radzen, Crystal Report, Jasper Report, Docker &
+                Spoken Languages (English, Mandarin, Bahasa Melayu, Cantonese) \\
+            
+            \end{tabular}
+        \end{center}
+
+    \vspace{0.20 cm}
+
+\end{document}
